@@ -1,18 +1,16 @@
-package com.hbk.legacy;
-
+package com.hbk.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "members")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +28,21 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Column(length = 20)
     private String gender;
-    private String companyName;
-    private String position;
-    private String tel;
-    private String address;
-    private String detailAddress;
 
-    private LocalDateTime createdAt;
+    @Column(length = 100)
+    private String companyName;
+
+    @Column(length = 100)
+    private String position;
+
+    @Column(length = 30)
+    private String tel;
+
+    @Column(length = 255)
+    private String address;
+
+    @Column(length = 255)
+    private String detailAddress;
 }

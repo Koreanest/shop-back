@@ -64,13 +64,24 @@ public class Product extends BaseTimeEntity {
     @Column(name = "image_path", nullable = false, length = 300)
     private String imagePath;
 
+    /**
+     * Product : ProductSpec = 1:1
+     * 상품 스펙은 상품과 생명주기를 같이 가져간다.
+     */
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ProductSpec spec;
 
+    /**
+     * Product : Sku = 1:N
+     * SKU는 상품에 종속되므로 cascade + orphanRemoval 유지
+     */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Sku> sizes = new ArrayList<>();
 
+    /**
+     * 양방향 연관관계 편의 메서드
+     */
     public void setSpec(ProductSpec spec) {
         this.spec = spec;
         if (spec != null) {
@@ -78,11 +89,27 @@ public class Product extends BaseTimeEntity {
         }
     }
 
+    /**
+     * SKU 추가
+     */
     public void addSize(Sku sku) {
         this.sizes.add(sku);
         sku.setProduct(this);
     }
 
+    /**
+     * 특정 SKU 제거
+     * sync update 방식에서 요청에 없는 기존 SKU 제거 시 사용
+     */
+    public void removeSize(Sku sku) {
+        this.sizes.remove(sku);
+        sku.setProduct(null);
+    }
+
+    /**
+     * 전량 교체가 필요한 경우를 대비해 유지
+     * 현재 update는 sync 방식으로 가지만 create나 특수 케이스에서 쓸 수 있다.
+     */
     public void clearSizes() {
         for (Sku sku : this.sizes) {
             sku.setProduct(null);

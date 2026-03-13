@@ -1,8 +1,8 @@
 package com.hbk.legacy;
 
 import com.hbk.dto.LoginRequest;
-import com.hbk.legacy.Member;
-import com.hbk.legacy.MemberRepository;
+import com.hbk.entity.Member;
+import com.hbk.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

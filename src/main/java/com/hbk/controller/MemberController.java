@@ -1,13 +1,15 @@
-package com.hbk.legacy;
+package com.hbk.controller;
 
 
 import com.hbk.dto.LoginRequest;
 import com.hbk.dto.MemberRegisterRequest;
-import com.hbk.legacy.MemberService;
+import com.hbk.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +23,7 @@ public class MemberController {
     private final MemberService memberService;
 
     // 회원가입 + 자동 로그인
-    @PostMapping("/members/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<?> register(
             @RequestBody MemberRegisterRequest request,
             HttpSession session
@@ -46,7 +48,7 @@ public class MemberController {
     }
 
     // 로그인 상태 확인
-    @GetMapping("/auth/me")
+    @GetMapping("/members/me")
     public ResponseEntity<?> me(HttpSession session) {
         System.out.println("ME SESSION ID = " + session.getId());
         System.out.println("ME MEMBER ID = " + session.getAttribute("LOGIN_MEMBER_ID"));
@@ -55,7 +57,7 @@ public class MemberController {
         if (memberId == null) {
             return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Map.of("memberId", memberId));
     }
 
     // 로그아웃
