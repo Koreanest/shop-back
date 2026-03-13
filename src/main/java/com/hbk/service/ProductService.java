@@ -162,6 +162,9 @@ public class ProductService {
         for (ProductSizeDTO s : sizes) {
             Sku sku = Sku.builder()
                     .gripSize(s.getSize())
+                    .isActive(true)
+                    .price(price)
+                    .skuCode(slug + "-" + s.getSize().toLowerCase())
                     .build();
 
             Inventory inventory = new Inventory(sku, s.getStock(), 0);
@@ -241,6 +244,9 @@ public class ProductService {
         for (ProductSizeDTO s : sizes) {
             Sku sku = Sku.builder()
                     .gripSize(s.getSize())
+                    .isActive(true)
+                    .price(price)
+                    .skuCode(product.getSlug() + "-" + s.getSize().toLowerCase())
                     .build();
 
             Inventory inventory = new Inventory(sku, s.getStock(), 0);
