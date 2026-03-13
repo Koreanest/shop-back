@@ -1,5 +1,6 @@
 package com.hbk.legacy;
 
+import com.hbk.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.util.List;
 public class LegacyTextBannerService {
 
     private final TextBannerRepository textBannerRepository;
-    private final LegacyFileStorageService legacyFileStorageService;
+    private final FileStorageService fileStorageService;
 
     @Transactional(readOnly = true)//DB “조회 전용” 트랜잭션으로 목록 조회 시작.
     public List<LegacyTextBannerRes> list(){
@@ -49,7 +50,7 @@ if (!visibleYn.equals("Y") && !visibleYn.equals("N")) {
         String imageUrl = null;
 
         try{ //요청에 이미지가 있으면 저장하고, 저장된 접근 URL을 받음.
-imageUrl = legacyFileStorageService.saveTextBannerImage(req.getImage());
+imageUrl = fileStorageService.saveTextBannerImage(req.getImage());
         }catch(Exception e) {
   throw new RuntimeException("image upload failed", e);
   //업로드 중 에러면 RuntimeException으로 감싸서 던짐.
@@ -69,7 +70,7 @@ return  LegacyTextBannerRes.from(saved); //저장된 엔티티를 응답 DTO로 
 LegacyTextBanner entity = textBannerRepository.findById(id)//id로 배너 조회.
 .orElseThrow(() -> new IllegalArgumentException("text banner not found: " + id));
 //DB 삭제 전에(선택적으로) 연결된 이미지 파일을 먼저 삭제 시도.
-legacyFileStorageService.deleteByRelativeUrl(entity.getImageUrl());
+fileStorageService.deleteByRelativeUrl(entity.getImageUrl());
 textBannerRepository.delete(entity);
     }
 

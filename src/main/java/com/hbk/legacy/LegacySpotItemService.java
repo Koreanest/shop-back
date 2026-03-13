@@ -1,5 +1,6 @@
 package com.hbk.legacy;
 
+import com.hbk.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.util.List;
 public class LegacySpotItemService {
 
     private final SpotItemRepository spotItemRepository;
-    private final LegacyFileStorageService legacyFileStorageService;
+    private final FileStorageService fileStorageService;
 
     /** ✅ 목록 조회 (sortOrder 오름차순) */
     @Transactional(readOnly = true)
@@ -51,7 +52,7 @@ public class LegacySpotItemService {
         // ✅ 이미지 업로드(선택)
         String imageUrl = null;
         try {
-            imageUrl = legacyFileStorageService.saveTextBannerImage(req.getImage());
+            imageUrl = fileStorageService.saveTextBannerImage(req.getImage());
         } catch (Exception e) {
             throw new RuntimeException("image upload failed", e);
         }
@@ -75,7 +76,7 @@ public class LegacySpotItemService {
         LegacySpotItem entity = spotItemRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("spot item not found: " + id));
 
-        legacyFileStorageService.deleteByRelativeUrl(entity.getImageUrl());
+        fileStorageService.deleteByRelativeUrl(entity.getImageUrl());
         spotItemRepository.delete(entity);
     }
 }

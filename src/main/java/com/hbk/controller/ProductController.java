@@ -1,7 +1,7 @@
 package com.hbk.controller;
 
-import com.hbk.legacy.LegacyProductResponseDTO;
-import com.hbk.service.LegacyProductService;
+import com.hbk.dto.ProductResponseDTO;
+import com.hbk.service.ProductService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -11,65 +11,79 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-//@RestController
+@RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-public class LegacyProductController {
+public class ProductController {
 
-    private final LegacyProductService legacyProductService;
+    private final ProductService productService;
 
     @GetMapping
-    public List<LegacyProductResponseDTO> list() {
-        return legacyProductService.list();
+    public List<ProductResponseDTO> list() {
+        return productService.list();
     }
 
     @GetMapping("/{id}")
-    public LegacyProductResponseDTO detail(@PathVariable Long id) {
-        return legacyProductService.getById(id);
+    public ProductResponseDTO detail(@PathVariable Long id) {
+        return productService.getById(id);
     }
 
-    // 🔥 slug로 조회
     @GetMapping("/slug/{slug}")
-    public LegacyProductResponseDTO getBySlug(@PathVariable String slug) {
-        return legacyProductService.getBySlug(slug);
+    public ProductResponseDTO getBySlug(@PathVariable String slug) {
+        return productService.getBySlug(slug);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public LegacyProductResponseDTO create(
+    public ProductResponseDTO create(
             @RequestParam @NotBlank String title,
-            @RequestParam(required = false) String desc,
+            @RequestParam(required = false) String description,
             @RequestParam @NotNull Integer price,
+            @RequestParam @NotNull Long brandId,
             @RequestParam @NotNull Long categoryId,
-
-            // ✅ sizes/specs (JSON 문자열)
             @RequestParam @NotBlank String sizes,
-            @RequestParam @NotBlank String specs,
-
+            @RequestParam @NotBlank String spec,
             @RequestPart("image") MultipartFile image
     ) throws Exception {
-        return legacyProductService.create(title, desc, price, categoryId, sizes, specs, image);
+        return productService.create(
+                title,
+                description,
+                price,
+                brandId,
+                categoryId,
+                sizes,
+                spec,
+                image
+        );
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public LegacyProductResponseDTO update(
+    public ProductResponseDTO update(
             @PathVariable Long id,
             @RequestParam @NotBlank String title,
-            @RequestParam(required = false) String desc,
+            @RequestParam(required = false) String description,
             @RequestParam @NotNull Integer price,
+            @RequestParam(required = false) Long brandId,
             @RequestParam(required = false) Long categoryId,
-
-            // ✅ sizes/specs (JSON 문자열)
             @RequestParam @NotBlank String sizes,
-            @RequestParam @NotBlank String specs,
-
+            @RequestParam @NotBlank String spec,
             @RequestPart(value = "image", required = false) MultipartFile image
     ) throws Exception {
-        return legacyProductService.update(id, title, desc, price, categoryId, sizes, specs, image);
+        return productService.update(
+                id,
+                title,
+                description,
+                price,
+                brandId,
+                categoryId,
+                sizes,
+                spec,
+                image
+        );
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        legacyProductService.delete(id);
+        productService.delete(id);
     }
 }

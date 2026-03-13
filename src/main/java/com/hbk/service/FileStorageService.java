@@ -1,4 +1,4 @@
-package com.hbk.legacy;
+package com.hbk.service;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
-public class LegacyFileStorageService { //👉 파일 저장/삭제 담당.
+public class FileStorageService { //👉 파일 저장/삭제 담당.
 
     //업로드 경로 설정 기본 업로드 폴더는 프로젝트 루트의 uploads 폴더.
     @Value("${app.upload.root:./uploads}")

@@ -1,4 +1,4 @@
-package com.hbk.legacy;
+package com.hbk.entity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,11 @@ import java.nio.file.*;
 import java.util.UUID;
 
 @Component
-public class LegacyFileStorage {
+public class FileStorage {
 
     private final Path root;
 
-    public LegacyFileStorage(@Value("${app.upload-dir}") String uploadDir) {
+    public FileStorage(@Value("${app.upload-dir}") String uploadDir) {
         this.root = Paths.get(uploadDir).toAbsolutePath().normalize();
     }
 

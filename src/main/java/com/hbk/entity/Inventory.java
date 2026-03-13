@@ -1,8 +1,11 @@
 package com.hbk.entity;
 
+import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "inventory")
 public class Inventory {

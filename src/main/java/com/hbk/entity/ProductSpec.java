@@ -18,8 +18,8 @@ public class ProductSpec {
     private Long productId;   // PK = FK
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name = "head_size_sq_in")

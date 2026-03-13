@@ -1,11 +1,11 @@
-package com.hbk.legacy;
+package com.hbk.dto;
 
 import lombok.*;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class LegacyProductSizeDTO {
-    private Integer size;
+public class ProductSizeDTO {
+    private String size;
     private Integer stock;
 }

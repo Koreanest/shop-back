@@ -1,5 +1,7 @@
 package com.hbk.legacy;
 
+import com.hbk.dto.ProductSizeDTO;
+import com.hbk.dto.ProductSpecDTO;
 import lombok.*;
 
 import java.util.List;
@@ -13,6 +15,6 @@ public class LegacyProductUpsertRequest {
     private Integer price;
     private Long categoryId;
 
-    private List<LegacyProductSizeDTO> sizes;
-    private List<LegacyProductSpecDTO> specs;
+    private List<ProductSizeDTO> sizes;
+    private List<ProductSpecDTO> specs;
 }
