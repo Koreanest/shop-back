@@ -44,6 +44,15 @@ INSERT INTO inventory (sku_id, stock_qty, safety_stock_qty)
 VALUES (2001, 10, 2)
 ON DUPLICATE KEY UPDATE stock_qty = VALUES(stock_qty);
 
+-- G3
+--INSERT INTO skus (id, product_id, price, sku_code, is_active, grip_size)
+--VALUES (2002, 1203, 289000, 'VCORE100-2023-G3', 1, 'G3')
+--ON DUPLICATE KEY UPDATE sku_code = VALUES(sku_code);
+--
+--INSERT INTO inventory (sku_id, stock_qty, safety_stock_qty)
+--VALUES (2002, 8, 2)
+--ON DUPLICATE KEY UPDATE stock_qty = VALUES(stock_qty);
+
 -- Cart (1:1 user)
 INSERT INTO carts (id, user_id)
 VALUES (1, 10)
