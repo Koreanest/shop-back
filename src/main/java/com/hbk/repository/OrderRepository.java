@@ -28,5 +28,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "items.sku",
             "items.sku.product"
     })
+    Optional<Order> findWithLockById(Long id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @EntityGraph(attributePaths = {
+            "items",
+            "items.sku",
+            "items.sku.product"
+    })
     Optional<Order> findWithLockByIdAndMember_Id(Long id, Long memberId);
 }

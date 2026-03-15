@@ -6,6 +6,8 @@
 !gradle/wrapper/gradle-wrapper.properties
 build/
 uploads/
+bin/
+*.class
 
 # Spring Boot
 *.jar
