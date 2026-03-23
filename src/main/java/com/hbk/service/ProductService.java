@@ -1,6 +1,7 @@
 package com.hbk.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hbk.dto.ProductCreateRequestDTO;
 import com.hbk.dto.ProductResponseDTO;
 import com.hbk.dto.ProductSizeDTO;
 import com.hbk.dto.ProductSpecDTO;
@@ -423,5 +424,29 @@ public class ProductService {
 
         fileStorage.deleteByPath(product.getImagePath());
         repo.delete(product);
+    }
+    @Transactional
+    public Long create(ProductCreateRequestDTO req) {
+
+        try {
+            String sizesJson = objectMapper.writeValueAsString(req.getSizes());
+            String specJson = objectMapper.writeValueAsString(req.getSpec());
+
+            ProductResponseDTO res = create(
+                    req.getTitle(),
+                    req.getDescription(),
+                    req.getPrice(),
+                    req.getBrandId(),
+                    req.getCategoryId(),
+                    sizesJson,
+                    specJson,
+                    null
+            );
+
+            return res.getId();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
