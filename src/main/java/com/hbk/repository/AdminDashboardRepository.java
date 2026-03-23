@@ -11,7 +11,12 @@ import java.util.List;
 public interface AdminDashboardRepository extends JpaRepository<Order, Long> {
 
     // 1. 오늘 총 매출액
-    @Query(value = "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE DATE(created_at) = CURDATE()", nativeQuery = true)
+    @Query(value =
+            "SELECT COALESCE(SUM(total_price), 0) " +
+                    "FROM orders " +
+                    "WHERE DATE(created_at) = CURDATE() " +
+                    "AND status = 'PAID'",
+            nativeQuery = true)
     Long getTodayRevenue();
 
     // 2. 오늘 총 주문 건수
@@ -21,7 +26,7 @@ public interface AdminDashboardRepository extends JpaRepository<Order, Long> {
     // 3. 최근 7일 주간 차트 데이터
     @Query(value =
             "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS date, " +
-                    "COALESCE(SUM(total_amount), 0) AS revenue, " +
+                    "COALESCE(SUM(total_price), 0) AS revenue, " +
                     "COUNT(id) AS orderCount " +
                     "FROM orders " +
                     "WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) " +
@@ -32,7 +37,7 @@ public interface AdminDashboardRepository extends JpaRepository<Order, Long> {
     // 4. 최근 6개월 월간 차트 데이터
     @Query(value =
             "SELECT DATE_FORMAT(created_at, '%Y-%m') AS date, " +
-                    "COALESCE(SUM(total_amount), 0) AS revenue, " +
+                    "COALESCE(SUM(total_price), 0) AS revenue, " +
                     "COUNT(id) AS orderCount " +
                     "FROM orders " +
                     "WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 5 MONTH) " +

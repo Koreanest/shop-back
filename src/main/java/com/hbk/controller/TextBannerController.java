@@ -29,7 +29,7 @@ public class TextBannerController {
 
     // ✅ 삭제
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable Long id) {
         textBannerService.delete(id);
     }
 }

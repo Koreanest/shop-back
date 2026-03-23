@@ -26,13 +26,13 @@ public class FooterController {
     }
 
     @DeleteMapping("/categories/{id}")
-    public void deleteCategory(@PathVariable long id) {
+    public void deleteCategory(@PathVariable Long id) {
         footerService.deleteCategory(id);
     }
 
     // 2차 링크
     @GetMapping("/categories/{categoryId}/links")
-    public List<FooterLinkResponse> links(@PathVariable long categoryId) {
+    public List<FooterLinkResponse> links(@PathVariable Long categoryId) {
         return footerService.linksByCategory(categoryId);
     }
 
@@ -42,7 +42,7 @@ public class FooterController {
     }
 
     @DeleteMapping("/links/{id}")
-    public void deleteLink(@PathVariable long id) {
+    public void deleteLink(@PathVariable Long id) {
         footerService.deleteLink(id);
     }
 

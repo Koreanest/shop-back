@@ -20,17 +20,17 @@ public class AdminDashboardService {
     private final MemberRepository memberRepository; // 🌟 Member 주입
 
     public AdminDashboardDTO.DailySummary getDailySummary() {
-        long todayRevenue = dashboardRepository.getTodayRevenue();
-        long todayOrders = dashboardRepository.getTodayOrderCount();
+        Long todayRevenue = dashboardRepository.getTodayRevenue();
+        Long todayOrders = dashboardRepository.getTodayOrderCount();
 
         // MemberRepository에서 오늘 가입한 신규 멤버 수 가져오기
-        long newMembers = memberRepository.countTodayNewMembers();
-        long pendingInquiries = 0L; // TODO: 1:1 문의 테이블 연동 시 수정
+        Long newMembers = memberRepository.countTodayNewMembers();
+        Long pendingInquiries = 0L; // TODO: 1:1 문의 테이블 연동 시 수정
 
         return AdminDashboardDTO.DailySummary.builder()
-                .todayRevenue(todayRevenue)
-                .todayOrders(todayOrders)
-                .newMembers(newMembers)
+                .todayRevenue(todayRevenue == null ? 0 : todayRevenue)
+                .todayOrders(todayOrders == null ? 0 : todayOrders)
+                .newMembers(newMembers == null ? 0 : newMembers)
                 .pendingInquiries(pendingInquiries)
                 .build();
     }

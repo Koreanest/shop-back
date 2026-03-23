@@ -30,7 +30,7 @@ public class ScrollBannerController {
 
     /** ✅ 삭제 */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable Long id) {
         scrollBannerService.delete(id);
     }
 }

@@ -75,7 +75,7 @@ public class SpotItemService {
 
     /** ✅ 삭제 (이미지 파일도 같이 삭제 시도) */
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         SpotItem entity = spotItemRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("spot item not found: " + id));
 

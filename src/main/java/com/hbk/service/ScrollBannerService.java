@@ -84,7 +84,7 @@ public class ScrollBannerService {
 
     /** ✅ 삭제 (이미지 파일도 같이 삭제 시도) */
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         ScrollBanner entity = scrollBannerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("scroll banner not found: " + id));
 

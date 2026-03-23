@@ -69,7 +69,7 @@ return  TextBannerRes.from(saved); //저장된 엔티티를 응답 DTO로 변환
     }
 
     @Transactional
-    public void delete(long id){
+    public void delete(Long id){
 TextBanner entity = textBannerRepository.findById(id)//id로 배너 조회.
 .orElseThrow(() -> new IllegalArgumentException("text banner not found: " + id));
 //DB 삭제 전에(선택적으로) 연결된 이미지 파일을 먼저 삭제 시도.

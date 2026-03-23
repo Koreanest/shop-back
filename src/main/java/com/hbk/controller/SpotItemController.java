@@ -30,7 +30,7 @@ public class SpotItemController {
 
     /** ✅ 삭제 */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable Long id) {
         spotItemService.delete(id);
     }
 }
