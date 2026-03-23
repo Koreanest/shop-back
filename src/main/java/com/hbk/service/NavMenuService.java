@@ -4,6 +4,7 @@ import com.hbk.dto.NavMenuRequestDTO;
 import com.hbk.dto.NavMenuResponseDTO;
 import com.hbk.entity.NavMenu;
 import com.hbk.repository.NavMenuRepository;
+import com.hbk.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class NavMenuService {
 
     private final NavMenuRepository navMenuRepository;
+    private final ProductRepository productRepository;
 
     @Transactional(readOnly = true)
     public List<NavMenuResponseDTO> tree() {
@@ -86,6 +88,17 @@ public class NavMenuService {
         NavMenu menu = navMenuRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("menu not found: " + id));
 
+        // 1. 방어 로직: 하위 카테고리가 존재하는지 확인 (자기 참조 FK 방어)
+        if (menu.getChildren() != null && !menu.getChildren().isEmpty()) {
+            throw new IllegalStateException("하위 카테고리가 존재하여 삭제할 수 없습니다. 하위 카테고리를 먼저 삭제해 주세요.");
+        }
+
+        // 2. 방어 로직: 해당 카테고리에 속한 상품이 존재하는지 확인 (products FK 방어)
+        if (productRepository.existsByCategory_Id(id)) {
+            throw new IllegalStateException("해당 카테고리에 등록된 상품이 존재하여 삭제할 수 없습니다. 상품의 카테고리를 먼저 변경하거나 삭제해 주세요.");
+        }
+
+        // 검증을 통과한 경우에만 안전하게 삭제 수행
         navMenuRepository.delete(menu);
     }
 

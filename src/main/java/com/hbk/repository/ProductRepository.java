@@ -37,6 +37,12 @@ public interface ProductRepository
     List<Product> findByCategory_Id(Long categoryId);
 
     /**
+     * 특정 카테고리를 참조하는 상품이 존재하는지 확인 (추가!)
+     * FK 제약조건 방어 로직에 사용
+     */
+    boolean existsByCategory_Id(Long categoryId);
+
+    /**
      * slug 기반 상품 조회
      * 상품 상세 페이지에서 사용
      */

@@ -49,7 +49,7 @@ public class MemberController {
     }
 
     // 로그인 상태 확인
-    @GetMapping("/members/me")
+    @GetMapping("/auth/me")
     public ResponseEntity<?> me(HttpSession session) {
         System.out.println("ME SESSION ID = " + session.getId());
         System.out.println("ME MEMBER ID = " + session.getAttribute("LOGIN_MEMBER_ID"));
